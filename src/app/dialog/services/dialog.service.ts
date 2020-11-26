@@ -41,4 +41,10 @@ export class DialogService {
     document.body.appendChild(domElem);
     this.dialogComponentRef = componentRef;
   }
+
+  // We also need a way to remove the component once the dialog is closed.
+  removeDialogComponentFromBody(): void {
+    this.appRef.detachView(this.dialogComponentRef.hostView);
+    this.dialogComponentRef.destroy()M
+  }
 }
