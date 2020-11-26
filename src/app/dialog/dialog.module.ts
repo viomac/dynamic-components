@@ -10,4 +10,4 @@ import { DialogComponent } from './components/dialog.component';
     CommonModule
   ]
 })
-export class DialogSystemModule { }
+export class DialogModule { }

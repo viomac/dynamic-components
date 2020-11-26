@@ -22,7 +22,7 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
   onOverlayClicked(evt: MouseEvent): void {}
 
   onDialogClicked(evt: MouseEvent): void {
-    evt.stopPropagation()
+    evt.stopPropagation();
   }
 
 }
