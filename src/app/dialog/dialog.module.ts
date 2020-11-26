@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { DialogComponent } from './components/dialog.component';
 
 
-
 @NgModule({
   declarations: [DialogComponent],
   imports: [
     CommonModule
-  ]
+  ],
+  entryComponents: [DialogComponent]
 })
 export class DialogModule { }

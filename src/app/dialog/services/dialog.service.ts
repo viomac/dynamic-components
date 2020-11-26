@@ -45,6 +45,15 @@ export class DialogService {
   // We also need a way to remove the component once the dialog is closed.
   removeDialogComponentFromBody(): void {
     this.appRef.detachView(this.dialogComponentRef.hostView);
-    this.dialogComponentRef.destroy()M
+    this.dialogComponentRef.destroy();
+  }
+
+  // Now that we are able to add the dialog to the DOM,
+  // all we need to do to open the dialog is to call our method.
+  // To do that, we define a public method called "open".
+  public open(): void {
+    // we call our appendDialogComponentToBody-method
+    // to open the empty dialog.
+    this.appendDialogComponentToBody();
   }
 }
