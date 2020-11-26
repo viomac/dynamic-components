@@ -1,4 +1,11 @@
-import {ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector} from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentFactoryResolver,
+  ComponentRef,
+  EmbeddedViewRef,
+  Injectable,
+  Injector,
+  Type} from '@angular/core';
 import {DialogComponent} from '../components/dialog.component';
 
 @Injectable({
@@ -11,7 +18,8 @@ export class DialogService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private injector: Injector
-  ) { }
+  ) {
+  }
 
   appendDialogComponentToBody(): void {
     // To get the factory of our DialogComponent we can use
@@ -51,9 +59,23 @@ export class DialogService {
   // Now that we are able to add the dialog to the DOM,
   // all we need to do to open the dialog is to call our method.
   // To do that, we define a public method called "open".
-  public open(): void {
+  public open(componentType: Type<any>): void {
     // we call our appendDialogComponentToBody-method
     // to open the empty dialog.
     this.appendDialogComponentToBody();
+
+    // Because empty dialogs are quite useless,
+    // we will enable our dialog to show any other component, next.
+    // Doing that, we will pass the Type of the component we want
+    // to spawn inside of our dialog to the services "open"-method.
+    this.dialogComponentRef.instance.childComponentType = componentType;
+
+    // Inside of the method, we assign that type
+    // to our dynamically created DialogComponent.
+    // Of course, our DialogComponent does not know
+    // what to do with that type, yet.
+    // To change that, we need to modify our dialog
+    // to instantiate dynamic components and place them in itself.
+    // We need to create a custom directive.
   }
 }
