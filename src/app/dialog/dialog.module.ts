@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogComponent } from './components/dialog.component';
+import { InsertionDirective } from './directives/insertion.directive';
 
 
 @NgModule({
-  declarations: [DialogComponent],
+  declarations: [
+    DialogComponent,
+    InsertionDirective],
   imports: [
     CommonModule
   ],
