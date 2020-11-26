@@ -2,7 +2,7 @@ import {
   Component,
   AfterViewInit,
   OnDestroy,
-  Type, ViewChild, ComponentFactoryResolver, ComponentRef
+  Type, ViewChild, ComponentFactoryResolver, ComponentRef, ChangeDetectorRef
 } from '@angular/core';
 import {InsertionDirective} from '../directives/insertion.directive';
 import {Subject} from 'rxjs';
@@ -26,14 +26,22 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
   public childComponentType: Type<any>;
   public onClose = this._onClose.asObservable();
 
-  @ViewChild(InsertionDirective);
-  insertionPoint: InsertionDirective;
+  @ViewChild(InsertionDirective) insertionPoint: InsertionDirective;
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngAfterViewInit(): void {
+    // Because we are using a reference to the view
+    // in loadChildComponent, we need to make sure that
+    // the view is fully loaded before we use it.
+    // That is why we are calling the method in ngAfterViewInit.
+    this.loadChildComponent(this.childComponentType);
+    // We then trigger change detection, once our dynamic
+    // child-component is loaded.
+    this.cd.detectChanges();
   }
 
   onOverlayClicked(evt: MouseEvent): void {}
