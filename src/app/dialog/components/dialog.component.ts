@@ -11,7 +11,7 @@ import {Subject} from 'rxjs';
   selector: 'app-dialog',
   template: `
     <div class="overlay" (click)="onOverlayClicked($event)">
-        <div class="overlay" (click)="onDialogClicked($event)">
+        <div class="dialog" (click)="onDialogClicked($event)">
           <ng-template appInsertion></ng-template>
         </div>
     </div>
