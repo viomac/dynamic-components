@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {DialogService} from './dialog/services/dialog.service';
+import {DialogExampleComponent} from './dialog-example/dialog-example.component';
 
 @Component({
   selector: 'app-root',
@@ -29,4 +31,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dynamic-components';
+  constructor(public  dialog: DialogService) {
+    this.dialog.open(DialogExampleComponent);
+  }
 }
