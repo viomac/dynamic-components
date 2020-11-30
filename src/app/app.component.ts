@@ -20,6 +20,8 @@ import {DialogExampleComponent} from './dialog-example/dialog-example.component'
 export class AppComponent {
   title = 'dynamic-components';
   constructor(public  dialog: DialogService) {
-    this.dialog.open(DialogExampleComponent);
+    this.dialog.open(DialogExampleComponent, {
+      data: { message: 'I am a dynamic component inside of a dialog!' }
+    });
   }
 }

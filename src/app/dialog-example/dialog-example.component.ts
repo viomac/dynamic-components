@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import {DialogConfig} from '../dialog/dialog-config';
 
 @Component({
   selector: 'app-dialog-example',
   template: `
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Test</h5>
+        <h5 class="card-title">{{ config.data.message }}</h5>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
         <a class="btn btn-primary mr-2" (click)="onClose()">CANCEL</a>
         <a class="btn btn-primary" (click)="onClose()">OK</a>
@@ -16,4 +17,7 @@ import { Component } from '@angular/core';
 })
 export class DialogExampleComponent {
   onClose(): void {}
+
+  constructor(public config: DialogConfig) {}
+
 }
