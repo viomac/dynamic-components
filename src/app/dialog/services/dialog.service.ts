@@ -7,6 +7,8 @@ import {
   Injector,
   Type} from '@angular/core';
 import {DialogComponent} from '../components/dialog.component';
+import {DialogConfig} from '../dialog-config';
+import {DialogInjector} from './dialog-injector';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,11 @@ export class DialogService {
   ) {
   }
 
-  appendDialogComponentToBody(): void {
+  appendDialogComponentToBody(config: DialogConfig): void {
+    // Create a map with the config
+    const map = new WeakMap();
+    map.set(DialogConfig, config);
+
     // To get the factory of our DialogComponent we can use
     // the ComponentFactoryResolver provided by angular.
     // This service is using the type of the component to look up the factory.
@@ -33,7 +39,9 @@ export class DialogService {
     // We are passing in the injector we requested
     // in the constructor. This enables the dynamic component
     // to make use of dependency injection itself.
-    const componentRef = componentFactory.create(this.injector);
+    // const componentRef = componentFactory.create(this.injector);
+    // --- use our new injector
+    const componentRef = componentFactory.create(new DialogInjector(this.injector, map));
 
     // Afterward, we need to attach the new component to
     // the angular component tree (which is separate from the DOM).
@@ -59,10 +67,10 @@ export class DialogService {
   // Now that we are able to add the dialog to the DOM,
   // all we need to do to open the dialog is to call our method.
   // To do that, we define a public method called "open".
-  public open(componentType: Type<any>): void {
+  public open(componentType: Type<any>, config: DialogConfig): void {
     // we call our appendDialogComponentToBody-method
     // to open the empty dialog.
-    this.appendDialogComponentToBody();
+    this.appendDialogComponentToBody(config);
 
     // Because empty dialogs are quite useless,
     // we will enable our dialog to show any other component, next.
