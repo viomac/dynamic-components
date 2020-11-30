@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {DialogService} from './dialog/services/dialog.service';
 import {DialogExampleComponent} from './dialog-example/dialog-example.component';
+import {DialogRef} from './dialog/components/dialog-ref';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import {DialogExampleComponent} from './dialog-example/dialog-example.component'
         Welcome to {{title}}!
       </h1>
       <span style="display: block">{{ title }} app is running!</span>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" (click)="openDialog()">
     </div>
     <router-outlet></router-outlet>
   `,
@@ -19,12 +20,14 @@ import {DialogExampleComponent} from './dialog-example/dialog-example.component'
 })
 export class AppComponent {
   title = 'dynamic-components';
-  constructor(public  dialog: DialogService) {
-    const ref = this.dialog.open(DialogExampleComponent, {
+  dialogRef: DialogRef;
+  constructor(public  dialog: DialogService) {}
+
+  openDialog(): void {
+    this.dialogRef = this.dialog.open(DialogExampleComponent, {
       data: { message: 'I am a dynamic component inside of a dialog!' }
     });
-
-    ref.afterClosed.subscribe(result => {
+    this.dialogRef.afterClosed.subscribe(result => {
       console.log('Dialog closed', result);
     });
   }
