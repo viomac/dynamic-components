@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DialogExampleComponent } from './dialog-example/dialog-example.component';
 import {DialogModule} from './dialog/dialog.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {DialogModule} from './dialog/dialog.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DialogModule
+    DialogModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

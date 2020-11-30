@@ -21,11 +21,13 @@ import {DialogRef} from './dialog/components/dialog-ref';
 export class AppComponent {
   title = 'dynamic-components';
   dialogRef: DialogRef;
-  constructor(public  dialog: DialogService) {}
+  constructor(public  dialog: DialogService) {
+    this.openDialog();
+  }
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(DialogExampleComponent, {
-      data: { message: 'I am a dynamic component inside of a dialog!' }
+      data: { message: 'Say hi and smile!' }
     });
     this.dialogRef.afterClosed.subscribe(result => {
       console.log('Dialog closed', result);
