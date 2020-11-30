@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {DialogConfig} from '../dialog/dialog-config';
+import {DialogRef} from '../dialog/components/dialog-ref';
 
 @Component({
   selector: 'app-dialog-example',
@@ -16,8 +17,10 @@ import {DialogConfig} from '../dialog/dialog-config';
   styleUrls: ['./dialog-example.component.css']
 })
 export class DialogExampleComponent {
-  onClose(): void {}
+  constructor(public config: DialogConfig, public dialog: DialogRef) {}
 
-  constructor(public config: DialogConfig) {}
+  onClose(): void {
+    this.dialog.close('some value');
+  }
 
 }

@@ -9,6 +9,7 @@ import {
 import {DialogComponent} from '../components/dialog.component';
 import {DialogConfig} from '../dialog-config';
 import {DialogInjector} from './dialog-injector';
+import {DialogRef} from '../components/dialog-ref';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,23 @@ export class DialogService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private injector: Injector
-  ) {
-  }
+  ) {}
 
-  appendDialogComponentToBody(config: DialogConfig): void {
+  appendDialogComponentToBody(config: DialogConfig): DialogRef {
     // Create a map with the config
     const map = new WeakMap();
     map.set(DialogConfig, config);
+
+    // Add the DialogRef to dependency injection
+    const dialogRef = new DialogRef();
+    map.set(DialogRef, dialogRef);
+
+    // we want to know when somebody called the close method
+    const sub = dialogRef.afterClosed.subscribe(() => {
+      // close the dialog
+      this.removeDialogComponentFromBody();
+      sub.unsubscribe();
+    });
 
     // To get the factory of our DialogComponent we can use
     // the ComponentFactoryResolver provided by angular.
@@ -56,6 +67,13 @@ export class DialogService {
 
     document.body.appendChild(domElem);
     this.dialogComponentRef = componentRef;
+
+    this.dialogComponentRef.instance.onClose.subscribe(() => {
+      this.removeDialogComponentFromBody();
+    });
+
+    // return the dialogRef
+    return dialogRef;
   }
 
   // We also need a way to remove the component once the dialog is closed.
@@ -67,10 +85,10 @@ export class DialogService {
   // Now that we are able to add the dialog to the DOM,
   // all we need to do to open the dialog is to call our method.
   // To do that, we define a public method called "open".
-  public open(componentType: Type<any>, config: DialogConfig): void {
+  public open(componentType: Type<any>, config: DialogConfig): DialogRef {
     // we call our appendDialogComponentToBody-method
     // to open the empty dialog.
-    this.appendDialogComponentToBody(config);
+    const dialogRef = this.appendDialogComponentToBody(config);
 
     // Because empty dialogs are quite useless,
     // we will enable our dialog to show any other component, next.
@@ -85,5 +103,7 @@ export class DialogService {
     // To change that, we need to modify our dialog
     // to instantiate dynamic components and place them in itself.
     // We need to create a custom directive.
+
+    return dialogRef;
   }
 }
